@@ -1,0 +1,28 @@
+# 🛑 Ignore les dépendances Node.js
+node_modules/
+
+# 🛑 Ignore les fichiers de build (Vite, Webpack, etc.)
+dist/
+*.log
+
+# 🛑 Ignore les fichiers de configuration locale
+.env
+.env.local
+.env.*.local
+
+# 🛑 Ignore les fichiers de l’éditeur de code
+.vscode/
+.idea/
+.DS_Store
+
+# 🛑 Ignore les fichiers de cache
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# 🛑 Ignore le dossier cache de Vite
+.vite/
+
+# 🛑 Ignore les fichiers de test temporaires
+coverage/
