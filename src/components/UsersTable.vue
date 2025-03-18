@@ -1,6 +1,7 @@
 <template>
     <div>
       <h3>Liste des Utilisateurs</h3>
+      <ButtonAddUser/>
       <table v-if="users.length" class="table">
         <thead>
           <tr>
@@ -36,8 +37,12 @@
   import { useUserStore } from '../store/usersStore'
   import { storeToRefs } from 'pinia'
   import { onMounted } from 'vue'
+  import ButtonAddUser from './ButtonAddUser.vue'
   
   export default {
+    components: {
+        ButtonAddUser
+  },
     setup() {
       const userStore = useUserStore()
       const { users } = storeToRefs(userStore)
@@ -46,15 +51,20 @@
         console.log("🔄 Chargement des utilisateurs...")
         userStore.fetchUsers()
       })
+      function getCookie(name) {
+  const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'))
+  return match ? match[2] : null
+}
   
       const deleteUser = async (id) => {
         if (!confirm('Voulez-vous vraiment supprimer cet utilisateur ?')) return
-  
+        const token = getCookie('token')
         try {
-          const response = await fetch(`http://localhost:3000/api/users/${id}`, {
+          const response = await fetch(`http://localhost:3000/api/user/${id}`, {
             method: 'DELETE',
             headers: {
-              'Content-Type': 'application/json'
+              'Content-Type': 'application/json',
+              ...(token ? { 'Authorization': `Bearer ${token}` } : {})
             },
             credentials: 'include' // ✅ Envoie automatiquement le cookie
           })

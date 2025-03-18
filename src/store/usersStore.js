@@ -20,10 +20,11 @@ export const useUserStore = defineStore('userStore', () => {
       const token = getCookie('token')
       console.log("🔐 Token récupéré :", token)
 
-      const response = await fetch('http://localhost:3000/api/users', {
+      const response = await fetch('http://localhost:3000/api/user', {
         method: 'GET',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          ...(token ? { 'Authorization': `Bearer ${token}` } : {})
           // ✅ Pas besoin d'`Authorization` si le token est en `HttpOnly`
         },
         credentials: 'include' // ✅ Envoie automatiquement le cookie
