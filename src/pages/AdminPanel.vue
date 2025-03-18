@@ -1,70 +1,105 @@
 <template>
   <div>
-    <h1>Panneau Admin</h1>
+    <MyHeader />
 
+    <!-- Toggle switch -->
     <!-- 🔀 Interrupteur pour afficher soit les objets, soit les utilisateurs -->
     <div class="toggle-container">
-      <button 
-        :class="{ active: currentView === 'objects' }"
-        @click="currentView = 'objects'">
-        📦 Objets
-      </button>
-      <button 
-        :class="{ active: currentView === 'users' }"
-        @click="currentView = 'users'">
-        👥 Utilisateurs
-      </button>
+      <div class="toggle-background">
+        <div class="toggle-slider" :class="{ 'slide-right': currentView === 'users' }"></div>
+        <button 
+          class="toggle-button left" 
+          :class="{ active: currentView === 'objects' }"
+          @click="currentView = 'objects'"
+        >
+          Objets
+        </button>
+        <button 
+          class="toggle-button right" 
+          :class="{ active: currentView === 'users' }"
+          @click="currentView = 'users'"
+        >
+          Users
+        </button>
+      </div>
     </div>
 
-    <!-- 🔀 Affichage conditionnel -->
+    <!-- Affichage conditionnel -->
     <ObjectTable v-if="currentView === 'objects'" />
     <UsersTable v-else />
-
   </div>
 </template>
 
 <script>
-import { ref } from 'vue'
-import ObjectTable from '../components/ObjectTable.vue'
-import UsersTable from '../components/UsersTable.vue'
+import { ref } from "vue";
+import ObjectTable from "../components/ObjectTable.vue";
+import UsersTable from "../components/UsersTable.vue";
+import MyHeader from "../components/MyHeader.vue";
 
 export default {
   components: {
     ObjectTable,
-    UsersTable
+    UsersTable,
+    MyHeader,
   },
   setup() {
-    const currentView = ref('objects') // ✅ Vue par défaut : objets
+    const currentView = ref("objects");  // ✅ Vue par défaut : objets
 
-    return { currentView }
-  }
-}
+    return { currentView };
+  },
+};
 </script>
 
 <style scoped>
-/* ✅ Style du bouton pour le toggle */
 .toggle-container {
   display: flex;
   justify-content: center;
   margin-bottom: 20px;
 }
 
-button {
-  padding: 10px 20px;
-  margin: 0 5px;
+
+.toggle-background {
+  position: relative;
+  width: 450px;
+  height: 50px;
+  background: #66bfbf;
+  border-radius: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 5px;
+}
+
+
+.toggle-slider {
+  position: absolute;
+  width: 50%;
+  height: 100%;
+  background: #a4fcff;
+  border-radius: 25px;
+  transition: transform 0.3s ease-in-out;
+}
+.slide-right {
+  transform: translateX(100%);
+}
+
+.toggle-button {
+  width: 50%;
+  height: 100%;
   border: none;
-  cursor: pointer;
+  background: transparent;
   font-size: 16px;
-  border-radius: 5px;
-  transition: background 0.3s;
+  font-weight: bold;
+  cursor: pointer;
+  z-index: 2;
+  transition: color 0.3s ease;
 }
 
-button.active {
-  background-color: #42b983;
+.toggle-button.active {
+  color: black;
+}
+
+.toggle-button:not(.active) {
   color: white;
-}
-
-button:hover {
-  background-color: #35976a;
 }
 </style>
