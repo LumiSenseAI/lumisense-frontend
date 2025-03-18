@@ -63,14 +63,13 @@ export default {
         const response = await fetch(`http://localhost:3000/api/object/${id}`, {
           method: 'DELETE',
           headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token.value}` // ✅ Ajoute le token en header
-          },
+          'Content-Type': 'application/json',
+          ...(token ? { 'Authorization': `Bearer ${token}` } : {}) // ✅ Ajoute le token si dispo
+        },
           credentials: 'include' // ✅ Envoie automatiquement le cookie
         })
 
         if (!response.ok) throw new Error('Échec de la suppression')
-
         objectStore.fetchObjects()
       } catch (error) {
         console.error('Erreur lors de la suppression :', error)

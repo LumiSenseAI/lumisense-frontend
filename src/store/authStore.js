@@ -36,10 +36,13 @@ export const useAuthStore = defineStore('auth', () => {
       })
 
       if (!response.ok) throw new Error('Identifiants incorrects')
-
+        const data = await response.json() 
+      const token = data.token
+      console.log("token:",token)
       // ✅ Stocke le token uniquement en cookie
-      token.value = true
-      setCookie('token', 'authenticated', 1) // 🔥 Cookie qui expire en 1h
+      // token.value = true
+      // console.log(await response)
+      setCookie('token', token, 1) // 🔥 Cookie qui expire en 1h
 
       router.push('/admin')
     } catch (err) {
