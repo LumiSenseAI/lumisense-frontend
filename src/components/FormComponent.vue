@@ -6,28 +6,42 @@
       <TextField id="password" label="Mot de passe" type="password" v-model="password" />
       <SubmitButton label="Se connecter" />
     </form>
+    <p v-if="error" class="error">{{ error }}</p> <!-- 🔥 Affichage des erreurs -->
   </div>
 </template>
 
 <script>
-import TextField from '../components/TextField.vue'
-import SubmitButton from '../components/SubmitButton.vue'
+import TextField from './TextField.vue'
+import SubmitButton from './SubmitButton.vue'
+import { useAuthStore } from '../store/authStore'
+import { storeToRefs } from 'pinia'
+import { ref } from 'vue'
 
 export default {
   components: {
     TextField,
     SubmitButton
   },
-  data() {
-    return {
-      email: '',
-      password: ''
+  setup() {
+    const authStore = useAuthStore()
+    const { error } = storeToRefs(authStore)
+
+    const email = ref('')
+    const password = ref('')
+
+    const submitForm = async () => {
+      console.log("Tentative de connexion...") // 🔍 Vérifier si la fonction est appelée
+      console.log("Email:", email.value, "Mot de passe:", password.value)
+
+      try {
+        await authStore.login(email.value, password.value)
+        console.log("Connexion réussie") // 🔥 Vérifier si la connexion est réussie
+      } catch (err) {
+        console.error("Erreur de connexion:", err)
+      }
     }
-  },
-  methods: {
-    submitForm() {
-      alert(`Email: ${this.email}, Mot de passe: ${this.password}`);
-    }
+
+    return { email, password, submitForm, error }
   }
 }
 </script>
@@ -49,5 +63,9 @@ h2 {
 form {
   display: flex;
   flex-direction: column;
+}
+.error {
+  color: red;
+  text-align: center;
 }
 </style>

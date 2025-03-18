@@ -1,8 +1,10 @@
 import { createApp } from 'vue'
+import { createPinia } from 'pinia'
 import App from './App.vue'
-import router from './router' // Vérifie si Vue Router est bien importé (si utilisé)
+import router from './router'
 
 const app = createApp(App)
 
-app.use(router) // Active le router si tu l’utilises
-app.mount('#app') // Monte l'application sur l'élément #app
+app.use(createPinia()) // 🔥 Ajout de Pinia
+app.use(router)
+app.mount('#app')
