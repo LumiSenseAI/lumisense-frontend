@@ -86,7 +86,7 @@
   
           showModal.value = false
           objectStore.fetchObjects()
-          router.push('/admin') // 🔄 Rafraîchit la liste des objets
+          
         } catch (error) {
           console.error("❌ Erreur lors de l'ajout :", error)
         }

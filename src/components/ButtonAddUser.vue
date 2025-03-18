@@ -35,7 +35,7 @@
   </template>
   
   <script>
-  import { useObjectStore } from '../store/objectStore'
+  import { useUserStore } from '../store/usersStore'
   import { ref } from 'vue'
   
   export default {
@@ -45,7 +45,7 @@
         return match ? match[2] : null
       }
   
-      const objectStore = useObjectStore()
+      const UserStore = useUserStore()
       const showModal = ref(false) // ✅ Contrôle l'affichage de la popup
       const token = getCookie('token')
   
@@ -82,8 +82,7 @@
           }
   
           showModal.value = false
-          objectStore.fetchObjects()
-          router.push('/admin') // 🔄 Rafraîchit la liste des utilisateurs
+          UserStore.fetchUsers()
         } catch (error) {
           console.error("❌ Erreur lors de l'ajout :", error)
         }
